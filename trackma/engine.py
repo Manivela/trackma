@@ -1099,6 +1099,9 @@ class Engine:
         elif ttype == 'mpris':
             from trackma.tracker.mpris import MprisTracker
             return MprisTracker
+        elif ttype == 'mpvosx':
+            from trackma.tracker.mpvosx import MPVOSXTracker
+            return MPVOSXTracker
         elif ttype == 'inotify_auto':
             try:
                 return self._get_tracker_class('pyinotify')
@@ -1120,6 +1123,8 @@ class Engine:
             # Guess the working tracker
             if os.name == 'nt':
                 return self._get_tracker_class('win32')
+            elif sys.platform == 'darwin':
+                return self._get_tracker_class('mpvosx')
 
             # Try trackers in this order: pyinotify, inotify, polling
             try:
